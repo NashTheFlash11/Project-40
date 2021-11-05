@@ -23,7 +23,7 @@ class Game{
                     playerCount = playerCountRef.val();
                     player.getCount();
                 }
-                form = new Form()
+                form = new Form();
                 form.display();
             }
     player1 = createSprite(200,500);
@@ -52,30 +52,32 @@ class Game{
             x = 500-allPlayers[plr].distance;
             y=500;
             
-            players[index -1].x = x;
+            players[index - 1].x = x;
             players[index - 1].y = y;
 
             // Differentiate the main player by printing
-            // the name of the player on the basket. 
+            // the name of the player on the basket.
             if(index === player.index){
                 fill("black");
                 textSize(25);
                 text(allPlayers[plr].name, x-25, y+25);
             }
-
+            fill("white");
+            textSize(30);
+            text("player1: " + allPlayers.player1.score, 50, 50);
+            text("player2: " + allPlayers.player2.score, 500, 50);
         }
 
 
-        // Give movements for the players using arrow keys
         if(keyIsDown(RIGHT_ARROW) && player.index !== null){
             player.distance += 10;
             player.update();
-        }
-
-        if(keyIsDown(LEFT_ARROW) && player.index !== null){
+          }
+        
+          if(keyIsDown(LEFT_ARROW) && player.index !== null){
             player.distance -= 10;
             player.update();
-        }
+          }
 
 
         // Create and spawn fruits randomly
@@ -98,6 +100,15 @@ class Game{
             fruitGroup.add(fruits);
         }
 
+        if(player.index !== null){
+            for(var i = 0; i < fruitGroup.length; i++){
+                if(fruitGroup.get(i).isTouching(players)){
+                    fruitGroup.get(i).destroy();
+                    player.score = player.score + 1;
+                    player.update();
+                }
+            }
+        }
         
     }
 
